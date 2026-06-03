@@ -1,8 +1,17 @@
 /* Recreated product dashboards for the MAHSULOT scrolly section.
    Built from design tokens (var(--...)) so they switch with the light/dark
-   theme — the PNGs in /public are reference only. */
+   theme, and all labels go through useLang() so they switch with UZ/EN too.
+   The PNGs in /public are reference only. */
+
+"use client";
 
 import { type CSSProperties } from "react";
+
+import { type Lang } from "@/lib/i18n";
+
+import { useLang } from "../lang-provider";
+
+type Bi = Record<Lang, string>;
 
 function Frame({ addr, children }: { addr: string; children: React.ReactNode }) {
   return (
@@ -44,6 +53,11 @@ function Head({ title, sub, seg }: { title: string; sub?: string; seg: React.Rea
   );
 }
 
+/** Shared period segmented control (Day / Week / Month). */
+function periodItems(lang: Lang): string[] {
+  return lang === "uz" ? ["Kun", "Hafta", "Oy"] : ["Day", "Week", "Month"];
+}
+
 /** Maps a 0–100 value to a quality-zone colour. */
 function zoneColor(v: number): string {
   if (v >= 80) return "var(--green)";
@@ -68,7 +82,7 @@ function linePts(vals: number[], w: number, h: number, pad = 8): string {
    1 — Sotuv dinamikasi · four KPI cards
    ============================================================ */
 const SD_CARDS: {
-  lab: string;
+  lab: Bi;
   color: string;
   delta: string;
   up: boolean;
@@ -76,26 +90,27 @@ const SD_CARDS: {
   bars?: number[];
   area?: boolean;
 }[] = [
-  { lab: "Yaratildi", color: "var(--blue)", delta: "+18%", up: true, val: "2.7k", bars: [20, 28, 16, 64, 40, 18] },
-  { lab: "Yutildi", color: "var(--green)", delta: "+24%", up: true, val: "112", bars: [10, 16, 24, 40, 70, 86] },
-  { lab: "Yo‘qotildi", color: "var(--red)", delta: "−9%", up: false, val: "1.7k", bars: [44, 56, 70, 84, 60, 46] },
-  { lab: "Tushum", color: "var(--amber)", delta: "+31%", up: true, val: "310M", area: true },
+  { lab: { uz: "Yaratildi", en: "Created" }, color: "var(--blue)", delta: "+18%", up: true, val: "2.7k", bars: [20, 28, 16, 64, 40, 18] },
+  { lab: { uz: "Yutildi", en: "Won" }, color: "var(--green)", delta: "+24%", up: true, val: "112", bars: [10, 16, 24, 40, 70, 86] },
+  { lab: { uz: "Yo‘qotildi", en: "Lost" }, color: "var(--red)", delta: "−9%", up: false, val: "1.7k", bars: [44, 56, 70, 84, 60, 46] },
+  { lab: { uz: "Tushum", en: "Revenue" }, color: "var(--amber)", delta: "+31%", up: true, val: "310M", area: true },
 ];
 
 export function SalesDynamicsShot() {
+  const { lang } = useLang();
   return (
     <Frame addr="app.sales.uz/dynamics">
       <Head
-        title="Sotuv dinamikasi"
-        sub="To‘rt ko‘rsatkich · alohida tahlil"
-        seg={<Seg items={["Kun", "Hafta", "Oy"]} active={1} />}
+        title={lang === "uz" ? "Sotuv dinamikasi" : "Sales dynamics"}
+        sub={lang === "uz" ? "To‘rt ko‘rsatkich · alohida tahlil" : "Four metrics · analysed separately"}
+        seg={<Seg items={periodItems(lang)} active={1} />}
       />
       <div className="sd-grid">
         {SD_CARDS.map((c) => (
-          <div className="sd-card" key={c.lab}>
+          <div className="sd-card" key={c.lab.en}>
             <div className="sd-top">
               <span className="sd-dot" style={{ background: c.color }} />
-              <span className="sd-lab">{c.lab}</span>
+              <span className="sd-lab">{c.lab[lang]}</span>
               <span
                 className="sd-delta mono"
                 style={{ color: c.up ? "var(--green)" : "var(--red)", background: c.up ? "var(--greenSoft)" : "var(--redSoft)" }}
@@ -126,13 +141,12 @@ export function SalesDynamicsShot() {
 /* ============================================================
    2 — Bitimlar oqimi va tushum · KPI strip + combined chart
    ============================================================ */
-const DF_KPIS = [
-  { lab: "TUSHUM", val: "310.3M", unit: "so‘m", sub: "+31% vs oldingi", tone: "var(--amber)" },
-  { lab: "KONVERSIYA", val: "6.0", unit: "%", sub: "yutildi / yopildi", tone: "var(--green)" },
-  { lab: "YOPILGAN", val: "1852", unit: "", sub: "112 yutildi", tone: "var(--ink3)" },
-  { lab: "LID", val: "2.7k", unit: "", sub: "yaratildi", tone: "var(--blue)" },
+const DF_KPIS: { lab: Bi; val: string; unit: string; sub: Bi; tone: string }[] = [
+  { lab: { uz: "TUSHUM", en: "REVENUE" }, val: "310.3M", unit: "so‘m", sub: { uz: "+31% vs oldingi", en: "+31% vs prev" }, tone: "var(--amber)" },
+  { lab: { uz: "KONVERSIYA", en: "CONVERSION" }, val: "6.0", unit: "%", sub: { uz: "yutildi / yopildi", en: "won / closed" }, tone: "var(--green)" },
+  { lab: { uz: "YOPILGAN", en: "CLOSED" }, val: "1852", unit: "", sub: { uz: "112 yutildi", en: "112 won" }, tone: "var(--ink3)" },
+  { lab: { uz: "LID", en: "LEADS" }, val: "2.7k", unit: "", sub: { uz: "yaratildi", en: "created" }, tone: "var(--blue)" },
 ];
-// Bars for the right-hand weeks: green base + red loss stacked.
 const DF_BARS = [
   { x: 196, green: 6, red: 30 },
   { x: 224, green: 8, red: 44 },
@@ -142,23 +156,30 @@ const DF_BARS = [
 ];
 
 export function DealFlowShot() {
+  const { lang } = useLang();
+  const legend: Bi[] = [
+    { uz: "Yutildi", en: "Won" },
+    { uz: "Yo‘qotildi", en: "Lost" },
+    { uz: "Tushum", en: "Revenue" },
+  ];
+  const legendColors = ["var(--green)", "var(--red)", "var(--amber)"];
   return (
     <Frame addr="app.sales.uz/pipeline">
       <Head
-        title="Sotuv dinamikasi"
-        sub="Bitimlar oqimi va tushum"
-        seg={<Seg items={["Kun", "Hafta", "Oy"]} active={1} />}
+        title={lang === "uz" ? "Sotuv dinamikasi" : "Sales dynamics"}
+        sub={lang === "uz" ? "Bitimlar oqimi va tushum" : "Deal flow and revenue"}
+        seg={<Seg items={periodItems(lang)} active={1} />}
       />
       <div className="df-kpis">
         {DF_KPIS.map((k) => (
-          <div className="df-kpi" key={k.lab}>
-            <div className="df-kpi-lab">{k.lab}</div>
+          <div className="df-kpi" key={k.lab.en}>
+            <div className="df-kpi-lab">{k.lab[lang]}</div>
             <div className="df-kpi-val mono">
               {k.val}
               {k.unit && <span className="u">{k.unit}</span>}
             </div>
             <div className="df-kpi-sub" style={{ color: k.tone }}>
-              {k.sub}
+              {k.sub[lang]}
             </div>
           </div>
         ))}
@@ -173,21 +194,22 @@ export function DealFlowShot() {
         {[26, 62, 98].map((y) => (
           <line key={y} x1="0" y1={y} x2="320" y2={y} stroke="var(--rule)" strokeWidth="1" />
         ))}
-        {/* stacked bars (green base + red) */}
         {DF_BARS.map((b, i) => (
           <g key={i}>
             <rect x={b.x} y={120 - b.red - b.green} width="16" height={b.red} rx="2" fill="var(--red)" opacity="0.8" />
             <rect x={b.x} y={120 - b.green} width="16" height={b.green} rx="2" fill="var(--green)" />
           </g>
         ))}
-        {/* cumulative revenue line + area */}
         <path d="M0,118 L40,116 L80,112 L120,104 L160,86 L200,52 L240,40 L280,24 L312,16 L312,120 L0,120Z" fill="url(#df-fill)" />
         <path d="M0,118 L40,116 L80,112 L120,104 L160,86 L200,52 L240,40 L280,24 L312,16" fill="none" stroke="var(--amber)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
       <div className="df-legend">
-        <span><i style={{ background: "var(--green)" }} />Yutildi</span>
-        <span><i style={{ background: "var(--red)" }} />Yo‘qotildi</span>
-        <span><i style={{ background: "var(--amber)" }} />Tushum</span>
+        {legend.map((l, i) => (
+          <span key={l.en}>
+            <i style={{ background: legendColors[i] }} />
+            {l[lang]}
+          </span>
+        ))}
       </div>
     </Frame>
   );
@@ -196,7 +218,13 @@ export function DealFlowShot() {
 /* ============================================================
    3 — Sotuv qadamlari bo‘yicha menejer profili · multi-line
    ============================================================ */
-const ML_STEPS = ["Salomlashish", "Ehtiyoj", "Taqdimot", "E’tiroz", "Yopish"];
+const ML_STEPS: Bi[] = [
+  { uz: "Salomlashish", en: "Greeting" },
+  { uz: "Ehtiyoj", en: "Needs" },
+  { uz: "Taqdimot", en: "Pitch" },
+  { uz: "E’tiroz", en: "Objection" },
+  { uz: "Yopish", en: "Close" },
+];
 const ML_SERIES = [
   { name: "Dilnoza", color: "var(--green)", pts: [92, 88, 85, 82, 90] },
   { name: "Bobur", color: "var(--blue)", pts: [85, 80, 75, 70, 65] },
@@ -208,15 +236,15 @@ const ML_W = 300;
 const ML_H = 148;
 
 export function CriteriaShot() {
+  const { lang } = useLang();
   return (
     <Frame addr="app.sales.uz/profile">
       <Head
-        title="Sotuv qadamlari bo‘yicha menejer profili"
-        sub="Har bir menejer voronka bo‘yicha qayerda kuchsiz"
-        seg={<Seg items={["Kun", "Hafta", "Oy"]} active={1} />}
+        title={lang === "uz" ? "Sotuv qadamlari bo‘yicha menejer profili" : "Manager profile by sales step"}
+        sub={lang === "uz" ? "Har bir menejer voronka bo‘yicha qayerda kuchsiz" : "Where each manager is weak across the funnel"}
+        seg={<Seg items={periodItems(lang)} active={1} />}
       />
       <svg className="ml-chart" viewBox={`0 0 ${ML_W} ${ML_H}`} aria-hidden="true">
-        {/* zone bands */}
         <rect x="0" y="8" width={ML_W} height={(20 / 100) * (ML_H - 16)} fill="var(--greenSoft)" />
         <rect x="0" y={8 + (40 / 100) * (ML_H - 16)} width={ML_W} height={(20 / 100) * (ML_H - 16)} fill="var(--amberSoft)" />
         <rect x="0" y={8 + (60 / 100) * (ML_H - 16)} width={ML_W} height={(40 / 100) * (ML_H - 16)} fill="var(--redSoft)" />
@@ -233,7 +261,7 @@ export function CriteriaShot() {
       </svg>
       <div className="ml-x">
         {ML_STEPS.map((s) => (
-          <span key={s}>{s}</span>
+          <span key={s.en}>{s[lang]}</span>
         ))}
       </div>
       <div className="ml-legend">
@@ -252,7 +280,13 @@ export function CriteriaShot() {
 /* ============================================================
    4 — Menejer × ko‘nikma · heatmap
    ============================================================ */
-const HM_SKILLS = ["Salom", "Ehtiyoj", "Taqdimot", "E’tiroz", "Yopish"];
+const HM_SKILLS: Bi[] = [
+  { uz: "Salom", en: "Greet" },
+  { uz: "Ehtiyoj", en: "Needs" },
+  { uz: "Taqdimot", en: "Pitch" },
+  { uz: "E’tiroz", en: "Obj." },
+  { uz: "Yopish", en: "Close" },
+];
 const HM_ROWS = [
   { n: "Dilnoza", v: [92, 88, 85, 82, 90], avg: 87 },
   { n: "Bobur", v: [85, 80, 75, 70, 65], avg: 75 },
@@ -268,27 +302,28 @@ function cell(v: number): CSSProperties {
 }
 
 export function HeatmapShot() {
+  const { lang } = useLang();
   return (
     <Frame addr="app.sales.uz/heatmap">
       <Head
-        title="Menejer × ko‘nikma"
-        sub="Sotuv qadamlari bo‘yicha ball (0–100)"
-        seg={<Seg items={["Kun", "Hafta", "Oy"]} active={1} />}
+        title={lang === "uz" ? "Menejer × ko‘nikma" : "Manager × skill"}
+        sub={lang === "uz" ? "Sotuv qadamlari bo‘yicha ball (0–100)" : "Score by sales step (0–100)"}
+        seg={<Seg items={periodItems(lang)} active={1} />}
       />
       <div className="hm-grid">
         <div className="hm-corner" />
         {HM_SKILLS.map((s) => (
-          <div key={s} className="hm-colh mono">
-            {s}
+          <div key={s.en} className="hm-colh mono">
+            {s[lang]}
           </div>
         ))}
-        <div className="hm-colh mono hm-avgh">O‘RT</div>
+        <div className="hm-colh mono hm-avgh">{lang === "uz" ? "O‘RT" : "AVG"}</div>
 
         {HM_ROWS.map((row) => (
           <HmRow key={row.n} row={row} />
         ))}
 
-        <div className="hm-rowh hm-foot">O‘RTACHA</div>
+        <div className="hm-rowh hm-foot">{lang === "uz" ? "O‘RTACHA" : "AVERAGE"}</div>
         {HM_AVG.map((v, i) => (
           <div key={i} className="hm-cell mono hm-foot" style={cell(v)}>
             {v}
