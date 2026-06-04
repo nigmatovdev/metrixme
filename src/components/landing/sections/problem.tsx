@@ -1,20 +1,11 @@
-import { type DictKey } from "@/lib/i18n";
-
 import { T } from "../lang-provider";
 import { Reveal } from "../reveal";
-
-const points: { value: DictKey; title: DictKey; desc: DictKey }[] = [
-  { value: "prob_b1_g", title: "prob_b1_t", desc: "prob_b1_d" },
-  { value: "prob_b2_g", title: "prob_b2_t", desc: "prob_b2_d" },
-  { value: "prob_b3_g", title: "prob_b3_t", desc: "prob_b3_d" },
-];
 
 // Fake call rows for the "blind" list — every score is an unreadable "??".
 const rows: { av: string; nm: string; wave: number[] }[] = [
   { av: "AK", nm: "Akmal · 04:12", wave: [6, 11, 4, 13, 7, 10, 5, 12, 8, 6, 11, 4] },
   { av: "MS", nm: "Madina · 02:58", wave: [10, 5, 12, 7, 13, 6, 9, 4, 11, 8, 5, 10] },
   { av: "JB", nm: "Jasur · 06:41", wave: [4, 9, 6, 11, 5, 13, 8, 6, 12, 7, 10, 5] },
-  { av: "DN", nm: "Dilnoza · 03:27", wave: [11, 7, 13, 5, 9, 12, 4, 10, 6, 13, 8, 6] },
 ];
 
 export function Problem() {
@@ -37,21 +28,6 @@ export function Problem() {
           <p className="lede">
             <T k="prob_lede" />
           </p>
-          <ul className="problem-points">
-            {points.map((p) => (
-              <li key={p.title} className="problem-point">
-                <span className="pv mono">
-                  <T k={p.value} />
-                </span>
-                <span className="pt">
-                  <b>
-                    <T k={p.title} />
-                  </b>{" "}
-                  — <T k={p.desc} />
-                </span>
-              </li>
-            ))}
-          </ul>
         </Reveal>
 
         <Reveal className="calllist" aria-hidden="true">

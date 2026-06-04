@@ -4,10 +4,10 @@ import { T } from "../lang-provider";
 import { Reveal } from "../reveal";
 
 // fill = share of deals still alive entering the stage; leak = lost within it.
-const stages: { title: DictKey; desc: DictKey; fill: string; reach: string; leak: string }[] = [
-  { title: "ceo_s1_t", desc: "ceo_s1_d", fill: "100%", reach: "100%", leak: "−28%" },
-  { title: "ceo_s2_t", desc: "ceo_s2_d", fill: "72%", reach: "72%", leak: "−33%" },
-  { title: "ceo_s3_t", desc: "ceo_s3_d", fill: "48%", reach: "48%", leak: "−27%" },
+const stages: { title: DictKey; fill: string; leak: string }[] = [
+  { title: "ceo_s1_t", fill: "100%", leak: "−28%" },
+  { title: "ceo_s2_t", fill: "72%", leak: "−33%" },
+  { title: "ceo_s3_t", fill: "48%", leak: "−27%" },
 ];
 
 export function Ceo() {
@@ -35,15 +35,10 @@ export function Ceo() {
                 <div className="sn">
                   <T k={s.title} />
                 </div>
-                <div className="sd">
-                  <T k={s.desc} />
-                </div>
               </div>
               <div className="funnel-track">
                 <div className="funnel-fill" style={{ "--fill": s.fill } as React.CSSProperties}>
-                  {s.reach} <span style={{ opacity: 0.8, marginLeft: 6 }}>
-                    · <T k="ceo_conv_l" />
-                  </span>
+                  {s.fill}
                 </div>
               </div>
               <div className="funnel-leak">
