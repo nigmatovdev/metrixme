@@ -57,6 +57,141 @@ export const dict = {
     ru: "Нам доверяют отделы продаж по всему Узбекистану",
   },
 
+  // ---- problem statement ----
+  prob_eyebrow: { uz: "MUAMMO", en: "THE PROBLEM", ru: "ПРОБЛЕМА" },
+  prob_h2a: {
+    uz: "Sotuv jamoangiz mijozlarni yo‘qotayotganini bilasiz.",
+    en: "You know your sales team is losing customers.",
+    ru: "Вы знаете, что отдел продаж теряет клиентов.",
+  },
+  prob_h2b: {
+    uz: "Lekin qayerda va nima sababdan — bilmaysiz.",
+    en: "But where, and why — you can’t see.",
+    ru: "Но где и почему — вы не видите.",
+  },
+  prob_lede: {
+    uz: "Bitimlar har kuni yopilmay qoladi — lekin qaysi qo‘ng‘iroqda, qaysi bosqichda va nega ketganini hech kim ko‘rmaydi. Qo‘ng‘iroqlar yozib olinadi, biroq ularni hech kim oxirigacha tinglamaydi. Natijada qarorlar faktga emas, taxminga asoslanadi.",
+    en: "Deals slip away every day — but no one sees which call, which stage, or why. Calls get recorded, yet nobody listens to them all the way through. So decisions rest on guesswork instead of facts.",
+    ru: "Сделки срываются каждый день — но никто не видит, на каком звонке, на каком этапе и почему. Звонки записываются, но их никто не дослушивает. В итоге решения строятся на догадках, а не на фактах.",
+  },
+  prob_b1_t: { uz: "Ko‘rinmas yo‘qotishlar", en: "Invisible losses", ru: "Невидимые потери" },
+  prob_b1_d: {
+    uz: "Mijoz nega ketganini bilmaysiz — sabab qo‘ng‘iroq ichida qolib ketadi.",
+    en: "You never learn why a client left — the reason stays buried inside the call.",
+    ru: "Вы не узнаёте, почему ушёл клиент — причина остаётся внутри звонка.",
+  },
+  prob_b1_g: { uz: "QAYERDA?", en: "WHERE?", ru: "ГДЕ?" },
+  prob_b2_t: { uz: "Tanlab tinglash", en: "Sampled listening", ru: "Выборочное прослушивание" },
+  prob_b2_d: {
+    uz: "Kuniga bir nechta qo‘ng‘iroq tekshiriladi — qolgani umuman ko‘rilmaydi.",
+    en: "Only a handful of calls get reviewed a day — the rest go unheard.",
+    ru: "В день проверяется лишь несколько звонков — остальные не слушает никто.",
+  },
+  prob_b2_g: { uz: "<1% QO‘NG‘IROQ", en: "<1% OF CALLS", ru: "<1% ЗВОНКОВ" },
+  prob_b3_t: { uz: "Taxminga asoslangan qaror", en: "Decisions on a hunch", ru: "Решения наугад" },
+  prob_b3_d: {
+    uz: "Coaching va prioritet his-tuyg‘uga qarab beriladi, ma’lumotga emas.",
+    en: "Coaching and priorities follow gut feeling, not data.",
+    ru: "Коучинг и приоритеты — по интуиции, а не по данным.",
+  },
+  prob_b3_g: { uz: "0 FAKT", en: "0 FACTS", ru: "0 ФАКТОВ" },
+  prob_card_title: { uz: "Bugungi qo‘ng‘iroqlar", en: "Today’s calls", ru: "Сегодняшние звонки" },
+  prob_card_tag: { uz: "SABAB NOMA’LUM", en: "REASON UNKNOWN", ru: "ПРИЧИНА НЕИЗВЕСТНА" },
+  prob_lost: { uz: "yo‘qotildi", en: "lost", ru: "потеряно" },
+
+  // ---- ceo / revenue section ----
+  ceo_eyebrow: { uz: "RAHBARLAR UCHUN", en: "FOR CEOs", ru: "ДЛЯ РУКОВОДИТЕЛЕЙ" },
+  ceo_h2: {
+    uz: "Daromad qayerda yo‘qolayotganini aniqlang",
+    en: "Pinpoint exactly where revenue leaks",
+    ru: "Определите, где именно теряется выручка",
+  },
+  ceo_lede: {
+    uz: "Daromad bitta joyda emas — voronkaning har bir bosqichida tomchilab yo‘qoladi. Sales har bir bosqichda konversiyani ko‘rsatadi va pul aynan qayerda — ehtiyojni aniqlashda, e’tiroz bilan ishlashda yoki yopishda — ketayotganini belgilaydi.",
+    en: "Revenue doesn’t leak in one place — it drips out at every stage of the funnel. Sales shows conversion at each step and pinpoints exactly where the money is lost: in needs discovery, objection handling, or the close.",
+    ru: "Выручка теряется не в одном месте — она утекает на каждом этапе воронки. Sales показывает конверсию на каждом шаге и точно указывает, где уходят деньги: на выявлении потребностей, в работе с возражениями или при закрытии.",
+  },
+  ceo_s1_t: { uz: "Ehtiyojni aniqlash", en: "Needs discovery", ru: "Выявление потребностей" },
+  ceo_s1_d: {
+    uz: "Menejer mijozni eshitmasdan taklif beradimi? Aynan shu yerda ko‘p bitim sovuydi.",
+    en: "Does the rep pitch before hearing the client? This is where many deals go cold.",
+    ru: "Менеджер предлагает, не выслушав клиента? Именно здесь остывает много сделок.",
+  },
+  ceo_s2_t: { uz: "E’tiroz bilan ishlash", en: "Objection handling", ru: "Работа с возражениями" },
+  ceo_s2_d: {
+    uz: "“Qimmat” yoki “o‘ylab ko‘ramiz” — bu e’tirozlar qanday yopiladi yoki yopilmaydi?",
+    en: "“Too expensive” or “we’ll think about it” — how are these objections closed, or not?",
+    ru: "«Дорого» или «мы подумаем» — как закрываются эти возражения и закрываются ли?",
+  },
+  ceo_s3_t: { uz: "Bitimni yopish", en: "Closing the deal", ru: "Закрытие сделки" },
+  ceo_s3_d: {
+    uz: "Keyingi qadam aniq belgilanadimi yoki mijoz “o‘zim bog‘lanaman” bilan ketadimi?",
+    en: "Is the next step set clearly, or does the client leave with “I’ll call you back”?",
+    ru: "Чётко ли назначен следующий шаг или клиент уходит с «я сам перезвоню»?",
+  },
+  ceo_conv_l: { uz: "keyingi bosqichga o‘tdi", en: "advance to next stage", ru: "переходят на следующий этап" },
+  ceo_leak_l: { uz: "shu bosqichda yo‘qoladi", en: "lost at this stage", ru: "теряется на этом этапе" },
+
+  // ---- rop / operations section ----
+  rop_eyebrow: { uz: "ROP UCHUN", en: "FOR THE SALES LEAD", ru: "ДЛЯ РОПа" },
+  rop_h2: {
+    uz: "Operatsion charchoqni kamaytiring",
+    en: "Cut the operational grind",
+    ru: "Снимите операционную усталость",
+  },
+  rop_lede: {
+    uz: "Hozir qo‘ng‘iroqlar qo‘lda tinglanadi — bu soatlab vaqt oladi va baribir hammasiga yetib bo‘lmaydi. E’tibor talab qiladigan muhim qo‘ng‘iroqlar e’tibordan chetda qoladi. Sales tinglashni avtomatlashtiradi va faqat diqqat kerak bo‘lgan qo‘ng‘iroqlarni yuzaga chiqaradi.",
+    en: "Today calls are reviewed by hand — it eats hours and you still can’t cover them all. The important calls that actually need attention slip through. Sales automates the listening and surfaces only the calls that need you.",
+    ru: "Сейчас звонки слушают вручную — это отнимает часы, и всё равно охватить все невозможно. Важные звонки, которым нужно внимание, теряются. Sales автоматизирует прослушивание и показывает только те звонки, которые требуют вас.",
+  },
+  rop_before: { uz: "Hozir", en: "Today", ru: "Сейчас" },
+  rop_before_tag: { uz: "QO‘LDA", en: "MANUAL", ru: "ВРУЧНУЮ" },
+  rop_after: { uz: "Sales bilan", en: "With Sales", ru: "С Sales" },
+  rop_after_tag: { uz: "AVTOMATIK", en: "AUTOMATED", ru: "АВТОМАТИЧЕСКИ" },
+  rop_c1_t: { uz: "Qo‘ng‘iroqlar soatlab qo‘lda tinglanadi", en: "Calls reviewed by hand for hours", ru: "Звонки слушают вручную часами" },
+  rop_c2_t: { uz: "Muhim qo‘ng‘iroqlar e’tibordan chetda qoladi", en: "Critical calls slip through unseen", ru: "Важные звонки упускаются" },
+  rop_c3_t: { uz: "Coaching uchun vaqt qolmaydi", en: "No time left for coaching", ru: "Не остаётся времени на коучинг" },
+  rop_a1_t: { uz: "Barcha qo‘ng‘iroqlar avtomatik baholanadi", en: "Every call scored automatically", ru: "Все звонки оцениваются автоматически" },
+  rop_a2_t: { uz: "Diqqat talab qiladigan qo‘ng‘iroqlar avtomatik belgilanadi", en: "Calls that need attention are auto-flagged", ru: "Звонки, требующие внимания, помечаются автоматически" },
+  rop_a3_t: { uz: "Vaqtingiz coaching va o‘sishga ozod bo‘ladi", en: "Your time is freed for coaching and growth", ru: "Время освобождается для коучинга и роста" },
+
+  // ---- value proposition section ----
+  vp_eyebrow: { uz: "YECHIM", en: "THE SOLUTION", ru: "РЕШЕНИЕ" },
+  vp_h2: {
+    uz: "Har bir qo‘ng‘iroqni natijaga aylantiring",
+    en: "Turn every call into a result",
+    ru: "Превратите каждый звонок в результат",
+  },
+  vp_lede: {
+    uz: "Sales muammoli nuqtalarni topadi, menejerlarga aniq coaching beradi va konversiyani oshiradi — taxmin emas, ma’lumot asosida. Har bir qo‘ng‘iroq endi o‘sish uchun imkoniyatga aylanadi.",
+    en: "Sales finds the weak spots, gives managers precise coaching and lifts conversion — driven by data, not guesswork. Every call becomes an opportunity to grow.",
+    ru: "Sales находит проблемные места, даёт менеджерам точный коучинг и повышает конверсию — на основе данных, а не догадок. Каждый звонок становится возможностью для роста.",
+  },
+  vp_c1_t: { uz: "Muammoni aniqlang", en: "Spot the problem", ru: "Найдите проблему" },
+  vp_c1_d: {
+    uz: "Har bir qo‘ng‘iroqdagi zaif qadamni va yo‘qotish sababini ko‘rsatadi.",
+    en: "Surfaces the weak step in every call and the reason behind each loss.",
+    ru: "Показывает слабый шаг в каждом звонке и причину каждой потери.",
+  },
+  vp_c2_t: { uz: "Sotuvni kuchaytiring", en: "Improve performance", ru: "Усильте продажи" },
+  vp_c2_d: {
+    uz: "Aniq, ma’lumotga asoslangan coaching bilan har bir menejerni o‘stiradi.",
+    en: "Grows every manager with clear, data-driven coaching.",
+    ru: "Развивает каждого менеджера с понятным коучингом на основе данных.",
+  },
+  vp_c3_t: { uz: "Konversiyani oshiring", en: "Lift conversion", ru: "Повысьте конверсию" },
+  vp_c3_d: {
+    uz: "Yaxshilangan suhbatlar to‘g‘ridan-to‘g‘ri yopilgan bitimlarga aylanadi.",
+    en: "Better conversations turn directly into closed deals.",
+    ru: "Лучшие разговоры напрямую превращаются в закрытые сделки.",
+  },
+  vp_result_n: { uz: "+18%", en: "+18%", ru: "+18%" },
+  vp_result_l: {
+    uz: "coaching’dan keyin o‘rtacha konversiya o‘sishi",
+    en: "average conversion lift after coaching",
+    ru: "средний рост конверсии после коучинга",
+  },
+
   // ---- features ----
   feat_eyebrow: { uz: "IMKONIYATLAR", en: "CAPABILITIES", ru: "ВОЗМОЖНОСТИ" },
   feat_h2: {

@@ -9,7 +9,9 @@
       "WebFetch(domain:dvoice.uz)",
       "WebFetch(domain:dvoice.ai)",
       "Bash(rm -f src/components/layout/header.tsx src/components/layout/footer.tsx)",
-      "Bash(rmdir src/components/layout)"
+      "Bash(rmdir src/components/layout)",
+      "Bash(npx tsc *)",
+      "Bash(npx eslint *)"
     ]
   }
 }

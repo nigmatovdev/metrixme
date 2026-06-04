@@ -5,17 +5,21 @@ import { Footer } from "./footer";
 import { LangProvider } from "./lang-provider";
 import { MouseGlow } from "./mouse-glow";
 import { Nav } from "./nav";
+import { Ceo } from "./sections/ceo";
 import { Cta } from "./sections/cta";
 import { Faq } from "./sections/faq";
 import { Features } from "./sections/features";
 import { Hero } from "./sections/hero";
 import { How } from "./sections/how";
 import { Integrations } from "./sections/integrations";
+import { Ops } from "./sections/ops";
 import { Pricing } from "./sections/pricing";
+import { Problem } from "./sections/problem";
 import { Results } from "./sections/results";
 import { Showcase } from "./sections/showcase";
 import { Testimonials } from "./sections/testimonials";
 import { Trust } from "./sections/trust";
+import { ValueProp } from "./sections/value-prop";
 
 /**
  * Client root for the marketing landing page. Wraps everything in the language
@@ -29,6 +33,10 @@ export function LandingPage() {
         <MouseGlow />
         <Nav />
         <main id="top">
+          <Problem />
+          <Ceo />
+          <Ops />
+          <ValueProp />
           <Hero />
           {/* <Trust /> */}
           <Features />
