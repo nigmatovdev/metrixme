@@ -32,16 +32,19 @@ jobs:
 
       - name: Set up gcloud
         uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
 
       - name: Build and push image
         run: |
           IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
-          gcloud builds submit --tag "$IMAGE" --region="${{ env.REGION }}" .
+          gcloud builds submit --project="${{ env.PROJECT_ID }}" --tag "$IMAGE" --region="${{ env.REGION }}" .
           echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
 
       - name: Deploy to Cloud Run
         run: |
           gcloud run deploy "${{ env.SERVICE }}" \
+            --project="${{ env.PROJECT_ID }}" \
             --image="${{ env.IMAGE }}" \
             --region="${{ env.REGION }}" \
             --platform=managed \
