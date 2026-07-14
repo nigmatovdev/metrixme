@@ -1,0 +1,78 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches: [c-run]
+
+env:
+  PROJECT_ID: project-ca265e68-9d90-4187-a94
+  REGION: asia-south1
+  SERVICE: dvoice-landing
+  REPOSITORY: dvoice-landing
+  WORKLOAD_IDENTITY_PROVIDER: projects/991177706039/locations/global/workloadIdentityPools/github-actions/providers/dvoice-landing-repo
+  SERVICE_ACCOUNT: dvoice-landing-deployer@project-ca265e68-9d90-4187-a94.iam.gserviceaccount.com
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Build and push image
+        run: |
+          set -euo pipefail
+          IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ github.sha }}"
+
+          # --async: the submitting identity isn't granted project Viewer/Owner,
+          # so it can't stream logs from the default Cloud Build logs bucket.
+          # Submit without waiting, then poll build status via the Cloud Build API instead.
+          BUILD_ID=$(gcloud builds submit --project="${{ env.PROJECT_ID }}" --tag "$IMAGE" \
+            --region="${{ env.REGION }}" --async --format="value(id)" .)
+          echo "Build submitted: $BUILD_ID"
+
+          for i in $(seq 1 60); do
+            STATUS=$(gcloud builds describe "$BUILD_ID" --project="${{ env.PROJECT_ID }}" \
+              --region="${{ env.REGION }}" --format="value(status)")
+            echo "status=$STATUS"
+            case "$STATUS" in
+              SUCCESS) break ;;
+              FAILURE|INTERNAL_ERROR|TIMEOUT|CANCELLED|EXPIRED)
+                echo "Build failed with status $STATUS"; exit 1 ;;
+            esac
+            sleep 10
+          done
+          if [ "$STATUS" != "SUCCESS" ]; then
+            echo "Build did not finish in time"; exit 1
+          fi
+
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy "${{ env.SERVICE }}" \
+            --project="${{ env.PROJECT_ID }}" \
+            --image="${{ env.IMAGE }}" \
+            --region="${{ env.REGION }}" \
+            --platform=managed \
+            --allow-unauthenticated \
+            --port=3000 \
+            --min-instances=0 \
+            --max-instances=10 \
+            --set-env-vars="SIGNUP_UPSTREAM_URL=${{ secrets.SIGNUP_UPSTREAM_URL }},SIGNUP_API_KEY=${{ secrets.SIGNUP_API_KEY }},NEXT_PUBLIC_SITE_URL=${{ secrets.NEXT_PUBLIC_SITE_URL }}"
